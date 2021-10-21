@@ -119,8 +119,33 @@ umap_paras = {
 }
 
 
-# In[4]:
+# run benchmark
 
+#n_data_list = [50_000, 100_000, 200_000, 400_000]
+n_data_list = [50_000]
+result = pd.DataFrame()
 
-get_ipython().run_cell_magic('time', '', '\nn_data_list = [50_000, 100_000, 200_000]\nresult = pd.DataFrame()\n\nfor n_data in n_data_list:\n    X, y = generateData(n_samples=n_data)\n\n    bm = doBenchmark(XGBClassifier, "xgb_gpu", X, y, xgbgpu_paras, n_warmup=1)\n    result = result.append(bm, ignore_index=True)\n\n    bm = doBenchmark(XGBClassifier, "xgb_cpu", X, y, xgbcpu_paras, n_warmup=1)\n    result = result.append(bm, ignore_index=True)\n\n    bm = doBenchmark(RandomForestClassifier, "rf_cpu", X, y, rf_paras, n_warmup=0)\n    result = result.append(bm, ignore_index=True)\n\n    bm = doBenchmark(LogisticRegression, "log_reg_cpu", X, y, {\'max_iter\':1000}, n_warmup=0)\n    result = result.append(bm, ignore_index=True)\n    \n    if(n_data<=100_000):\n        bm = doBenchmark(umap.UMAP, "umap_fit_cpu", X, y, umap_paras, n_warmup=0)\n        result = result.append(bm, ignore_index=True)\n    \n    bm = doBenchmark(PCA, "pca_fit_cpu", X, y, n_warmup=0)\n    result = result.append(bm, ignore_index=True)\n    \n    \n    bm = doBenchmark(StandardScaler, "standard_scaler_fit_cpu", X, y, n_warmup=1)\n    result = result.append(bm, ignore_index=True)\n    \n\nresult.to_csv("benchmark.csv", index=False)\nresult')
+for n_data in n_data_list:
+    X, y = generateData(n_samples=n_data)
 
+    bm = doBenchmark(XGBClassifier, "xgb_gpu", X, y, xgbgpu_paras, n_warmup=1)
+    result = result.append(bm, ignore_index=True)
+
+    bm = doBenchmark(XGBClassifier, "xgb_cpu", X, y, xgbcpu_paras, n_warmup=1)
+    result = result.append(bm, ignore_index=True)
+
+    bm = doBenchmark(RandomForestClassifier, "rf_cpu", X, y, rf_paras, n_warmup=0)
+    result = result.append(bm, ignore_index=True)
+
+    bm = doBenchmark(LogisticRegression, "log_reg_cpu", X, y, {'max_iter':1000}, n_warmup=0)
+    result = result.append(bm, ignore_index=True)
+    
+    if(n_data<=100_000):
+        bm = doBenchmark(umap.UMAP, "umap_fit_cpu", X, y, umap_paras, n_warmup=0)
+        result = result.append(bm, ignore_index=True)
+    
+    bm = doBenchmark(PCA, "pca_fit_cpu", X, y, n_warmup=0)
+    result = result.append(bm, ignore_index=True)
+    
+
+result.to_csv("benchmark.csv", index=False)
