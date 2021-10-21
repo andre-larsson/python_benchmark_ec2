@@ -12,6 +12,9 @@ from pprint import pprint
 import glob
 import shutil
 
+# gputil
+import GPUtil
+
 # data transforms
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import umap
@@ -83,6 +86,9 @@ def doBenchmark(model_class, model_name, X, y, params={}, n=5, n_warmup=1):
     
     return bm
 
+# config
+
+has_gpu = GPUtil.getGPUs()>0
 
 # define parameter sets
 
@@ -128,8 +134,10 @@ result = pd.DataFrame()
 for n_data in n_data_list:
     X, y = generateData(n_samples=n_data)
 
-    bm = doBenchmark(XGBClassifier, "xgb_gpu", X, y, xgbgpu_paras, n_warmup=1)
-    result = result.append(bm, ignore_index=True)
+    
+    if(has_gpu):
+        bm = doBenchmark(XGBClassifier, "xgb_gpu", X, y, xgbgpu_paras, n_warmup=1)
+        result = result.append(bm, ignore_index=True)
 
     bm = doBenchmark(XGBClassifier, "xgb_cpu", X, y, xgbcpu_paras, n_warmup=1)
     result = result.append(bm, ignore_index=True)
