@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# filesystem and os
+import os
+import psutil
+# gputil
+import GPUtil
+
 # pandas/numpy
 import pandas as pd
 import numpy as np
-
-# gputil
-import GPUtil
 
 # data transforms
 import umap
@@ -70,6 +73,8 @@ def doBenchmark(model_class, model_name, X, y, params={}, n=5, n_warmup=1):
 print("Imports and function definitions done!")
 
 has_gpu = len(GPUtil.getGPUs())>0
+num_cpu = os.cpu_count()
+gb_ram = psutil.virtual_memory()[0]/2**30
 
 print("Found GPU:", has_gpu)
 
@@ -140,5 +145,6 @@ for n_data in n_data_list:
     
     print("All models done for this dataset!")
     
-
+result['num_cpu'] = num_cpu
+result['gb_ram'] = gb_ram
 result.to_csv("benchmark.csv", index=False)
