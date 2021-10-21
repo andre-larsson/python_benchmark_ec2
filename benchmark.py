@@ -115,7 +115,8 @@ umap_paras = {
 
 # run benchmark
 
-n_data_list = [400_000, 200_000, 100_000, 50_000]
+#n_data_list = [400_000, 200_000, 100_000, 50_000]
+n_data_list = [200_000, 100_000, 50_000]
 #n_data_list = [50_000]
 result = pd.DataFrame()
 
