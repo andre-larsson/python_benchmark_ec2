@@ -5,41 +5,20 @@
 import pandas as pd
 import numpy as np
 
-# file management and os
-import os
-from pathlib import Path
-from pprint import pprint
-import glob
-import shutil
-
 # gputil
 import GPUtil
 
 # data transforms
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import umap
 
-# plotting
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 # other sklearn
-from sklearn.metrics import accuracy_score, roc_auc_score
-from sklearn.utils.validation import check_array, check_X_y
-from sklearn.model_selection import StratifiedKFold
-from sklearn.model_selection import train_test_split
-from sklearn.utils import shuffle
 from sklearn.decomposition import PCA
 from sklearn.datasets import make_classification
 
 # models
 from sklearn.linear_model import LogisticRegression
-from lightgbm import LGBMClassifier
-from catboost import CatBoostClassifier
 from xgboost import XGBClassifier
-from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import ExtraTreesClassifier
 
 # other
 from time import perf_counter as p_f
