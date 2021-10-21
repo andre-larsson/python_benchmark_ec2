@@ -37,17 +37,17 @@ def generateData(n_samples=100_000, n_features=60, noise_scale=10):
     return X, y
 
 def doBenchmark(model_class, model_name, X, y, params={}, n=5, n_warmup=1):
-    
     t_list = []
     
     # for e.g. xgboost gpu, first round always takes longer
     for i in range(n_warmup):
+        print(f"Training model {i+1} of {n_warmup} (warmup) for {model_name}.")
         model = model_class(**params)
         model.fit(X, y)
         del model
     
     for i in range(n):
-        print(i)
+        print(f"Training model {i+1} of {n} for {model_name}.")
         model = model_class(**params)
         t0=p_f()
         model.fit(X, y)
@@ -61,7 +61,7 @@ def doBenchmark(model_class, model_name, X, y, params={}, n=5, n_warmup=1):
         't_std': np.std(t_list)
          }
     
-    print(t_list)
+    #print(t_list)
     
     return bm
 
