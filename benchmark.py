@@ -88,7 +88,11 @@ def doBenchmark(model_class, model_name, X, y, params={}, n=5, n_warmup=1):
 
 # config
 
-has_gpu = GPUtil.getGPUs()>0
+print("Imports and function definitions done!")
+
+has_gpu = len(GPUtil.getGPUs())>0
+
+print("Found GPU:", has_gpu)
 
 # define parameter sets
 
@@ -133,8 +137,8 @@ result = pd.DataFrame()
 
 for n_data in n_data_list:
     X, y = generateData(n_samples=n_data)
-
     
+    print("Data generated, dimensions of X data:", X.shape)
     if(has_gpu):
         bm = doBenchmark(XGBClassifier, "xgb_gpu", X, y, xgbgpu_paras, n_warmup=1)
         result = result.append(bm, ignore_index=True)
@@ -154,6 +158,8 @@ for n_data in n_data_list:
     
     bm = doBenchmark(PCA, "pca_fit_cpu", X, y, n_warmup=0)
     result = result.append(bm, ignore_index=True)
+    
+    print("All models done for this dataset!")
     
 
 result.to_csv("benchmark.csv", index=False)
