@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 # pandas/numpy
 import pandas as pd
 import numpy as np
@@ -45,9 +42,7 @@ from sklearn.ensemble import ExtraTreesClassifier
 from time import perf_counter as p_f
 
 
-# In[2]:
-
-
+# define functions
 def generateData(n_samples=100_000, n_features=60, noise_scale=10):
 
     X, y = make_classification(n_samples=n_samples, n_features=n_features, n_informative=int(n_features*0.5), n_redundant=int(n_features*0.2))
@@ -89,8 +84,7 @@ def doBenchmark(model_class, model_name, X, y, params={}, n=5, n_warmup=1):
     return bm
 
 
-# In[3]:
-
+# define parameter sets
 
 rf_paras = {'n_jobs':-1,
             'verbose':1,
