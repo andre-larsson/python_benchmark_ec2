@@ -115,8 +115,8 @@ umap_paras = {
 
 # run benchmark
 
-#n_data_list = [400_000, 200_000, 100_000, 50_000]
-n_data_list = [200_000, 100_000, 50_000]
+n_data_list = [400_000, 100_000, 50_000]
+#n_data_list = [200_000, 100_000, 50_000]
 #n_data_list = [50_000]
 result = pd.DataFrame()
 
@@ -137,7 +137,7 @@ for n_data in n_data_list:
     bm = doBenchmark(LogisticRegression, "log_reg_cpu", X, y, {'max_iter':1000}, n_warmup=0)
     result = result.append(bm, ignore_index=True)
     
-    if(n_data<100_000):
+    if(n_data<=100_000):
         bm = doBenchmark(umap.UMAP, "umap_fit_cpu", X, y, umap_paras, n_warmup=1)
         result = result.append(bm, ignore_index=True)
     
