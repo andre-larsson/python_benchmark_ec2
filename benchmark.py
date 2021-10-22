@@ -105,7 +105,8 @@ xgbgpu_paras = {'learning_rate': 0.01,
                 'use_label_encoder' : False,
                 'tree_method' : 'gpu_hist',
                 'objective': 'binary:logistic',
-                'eval_metric': 'auc'
+                'eval_metric': 'auc',
+                'n_gpus': -1
                }
 
 umap_paras = {
