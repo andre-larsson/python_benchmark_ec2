@@ -39,7 +39,7 @@ def generateData(n_samples=100_000, n_features=60, noise_scale=10):
     X = X+ rng.normal(means, stds, X.shape)
     return X, y
 
-def doBenchmark(model_class, model_name, X, y, params={}, n=5, n_warmup=1):
+def doBenchmark(model_class, model_name, X, y, params={}, n=3, n_warmup=0):
     t_list = []
     
     # for e.g. xgboost gpu, first round always takes longer
@@ -137,7 +137,7 @@ for n_data in n_data_list:
     bm = doBenchmark(LogisticRegression, "log_reg_cpu", X, y, {'max_iter':1000}, n_warmup=0)
     result = result.append(bm, ignore_index=True)
     
-    if(n_data<=100_000):
+    if(n_data<100_000):
         bm = doBenchmark(umap.UMAP, "umap_fit_cpu", X, y, umap_paras, n_warmup=1)
         result = result.append(bm, ignore_index=True)
     
